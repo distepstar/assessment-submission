@@ -7,6 +7,13 @@ import { Pagination } from "../Pagination/Pagination";
 interface IProps {
   data: ITradingInfo[];
   category: TCategories;
+  currentPage: number;
+  prevPage: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  nextPage: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handlePageChange: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
 }
 
 interface PaginatedList {
@@ -18,10 +25,12 @@ interface PaginatedList {
 export const TradingRecordTable: React.FC<IProps> = ({
   data,
   category,
+  currentPage,
+  prevPage,
+  nextPage,
+  handlePageChange,
 }): JSX.Element => {
   const [pageSize, setPageSize] = useState<number>(1);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  // const currentItem = data.slice(firstPage, lastPage);
   const [currentItem, setCurrentItem] = useState<ITradingInfo[]>();
 
   // Pagination table configuration
@@ -29,16 +38,6 @@ export const TradingRecordTable: React.FC<IProps> = ({
 
   const lastPage: number = currentPage * totalItemPerPage;
   const firstPage: number = lastPage - totalItemPerPage;
-
-  // Page Navigation
-  const nextPage = (e: React.MouseEvent<HTMLButtonElement>) =>
-    setCurrentPage(currentPage + 1);
-  const prevPage = (e: React.MouseEvent<HTMLButtonElement>) =>
-    setCurrentPage(currentPage - 1);
-  const handlePageChange = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => setCurrentPage(index);
 
   useEffect(() => {
     let temp = data;

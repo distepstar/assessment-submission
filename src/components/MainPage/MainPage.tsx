@@ -11,6 +11,8 @@ export const MainPage: React.FC = ({}): JSX.Element => {
   // Categories of "All, Buy, Sell"
   const [selectedCategory, setSelectedCategory] =
     useState<TCategories>(selectedCategoryInit);
+  // Current Page number
+  const [currentPage, setCurrentPage] = useState<number>(1);
   // Datasets
   const [dummyData, setDummyData] = useState<ITradingInfo[]>(tradingInitData);
   // For buy and sell count display
@@ -37,8 +39,21 @@ export const MainPage: React.FC = ({}): JSX.Element => {
     e: React.MouseEvent<HTMLButtonElement>,
     category: TCategories
   ) => {
+    // change category
     setSelectedCategory(category);
+    // reset page number
+    setCurrentPage(1);
   };
+
+  // Page Navigation
+  const nextPage = (e: React.MouseEvent<HTMLButtonElement>) =>
+    setCurrentPage(currentPage + 1);
+  const prevPage = (e: React.MouseEvent<HTMLButtonElement>) =>
+    setCurrentPage(currentPage - 1);
+  const handlePageChange = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => setCurrentPage(index);
 
   return (
     <div className="flex flex-col w-full h-full justify-center items-center space-y-4">
@@ -95,7 +110,14 @@ export const MainPage: React.FC = ({}): JSX.Element => {
           </div>
         </div>
       </div>
-      <TradingRecordTable data={dummyData} category={selectedCategory} />
+      <TradingRecordTable
+        data={dummyData}
+        category={selectedCategory}
+        currentPage={currentPage}
+        prevPage={prevPage}
+        nextPage={nextPage}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
