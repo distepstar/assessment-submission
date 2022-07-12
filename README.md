@@ -1,5 +1,5 @@
 ## Guide
-Before start the project, run: 
+Before starting the project, run: 
 ### `npm install`
 
 Then: 
